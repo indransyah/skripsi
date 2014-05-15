@@ -15,3 +15,8 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::resource('user', 'UserController');
+Route::resource('keyword', 'KeywordController', 
+	array('except'=>array('show', 'edit', 'update')));
+Route::resource('criteria', 'CriteriaController');
