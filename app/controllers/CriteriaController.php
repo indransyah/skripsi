@@ -10,10 +10,17 @@ class CriteriaController extends \BaseController {
 
 	protected $layout = 'backend.layouts.index';
 
+	public function __construct()
+	{
+    	$this->beforeFilter('csrf', array('on'=>'post'));
+    	$this->beforeFilter('auth');
+	}
+
 	public function index()
 	{
 		//
-		$this->layout->content = View::make('backend.criteria');
+		$criterias = Criteria::all();
+		$this->layout->content = View::make('backend.criteria.index')->with('criterias', $criterias);
 	}
 
 
@@ -25,6 +32,7 @@ class CriteriaController extends \BaseController {
 	public function create()
 	{
 		//
+		$this->layout->content = View::make('backend.criteria.create');
 	}
 
 
@@ -36,6 +44,20 @@ class CriteriaController extends \BaseController {
 	public function store()
 	{
 		//
+		$validator = Validator::make(Input::all(), Criteria::$rules);
+		if ($validator->passes()) {
+			$criteria = new Criteria;
+			$criteria->criteria = Input::get('criteria');
+			$criteria->description = Input::get('description');
+			$criteria->save();
+			return Redirect::to('criteria')
+			->with('success', 'Criteria successfully added!');
+		} else {
+			return Redirect::to('criteria/create')
+			->with('error', 'The following errors occurred')
+			->withErrors($validator)
+			->withInput();
+		}
 	}
 
 
@@ -60,6 +82,9 @@ class CriteriaController extends \BaseController {
 	public function edit($id)
 	{
 		//
+		$criteria = Criteria::find($id);
+		$this->layout->content = View::make('backend.criteria.edit')
+			->with('criteria', $criteria);
 	}
 
 
@@ -72,6 +97,20 @@ class CriteriaController extends \BaseController {
 	public function update($id)
 	{
 		//
+		$validator = Validator::make(Input::all(), Criteria::$rules);
+		if ($validator->passes()) {
+			$criteria = Criteria::find($id);
+			$criteria->criteria = Input::get('criteria');
+			$criteria->description = Input::get('description');
+			$criteria->save();
+			return Redirect::to('criteria')
+			->with('success', 'Criteria successfully edited!');
+		} else {
+			return Redirect::to('criteria/'.$id.'/edit')
+			->with('error', 'The following errors occurred')
+			->withErrors($validator)
+			->withInput();
+		}
 	}
 
 
@@ -84,6 +123,10 @@ class CriteriaController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+		$criteria = Criteria::find($id);
+		$criteria->delete();
+		return Redirect::to('criteria')
+			->with('success', 'Criteria successfully deleted!');
 	}
 
 

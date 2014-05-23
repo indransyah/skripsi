@@ -13,10 +13,11 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('backend.user.login');
 });
-
-Route::resource('user', 'UserController');
-Route::resource('keyword', 'KeywordController', 
-	array('except'=>array('show', 'edit', 'update')));
+Route::controller('home', 'HomeController');
+Route::controller('user', 'UserController');
 Route::resource('criteria', 'CriteriaController');
+// Route::resource('keyword', 'KeywordController', 
+// 	array('except'=>array('show', 'edit', 'update')));
+// Route::resource('criteria', 'CriteriaController');

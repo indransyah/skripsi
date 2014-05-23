@@ -16,7 +16,7 @@ body{
 }
 .page-wrapping{
 	position: relative;
-	background: #F5F7FA;
+	/*background: #F5F7FA;*/
 }
 .sidebar{
 	width: 250px;
@@ -98,7 +98,7 @@ ul.stacked-menu li ul li a:hover{
 	height: 100%;
 	padding: 0;
 	z-index: 4;
-	position: relative;
+	/*position: relative;*/
 	top: 0px;
 	margin-left: 250px;
 	transition:All 0.3s ease;

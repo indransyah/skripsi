@@ -4,7 +4,7 @@
 	<li><a href="#fakelink">Home</a></li>
 	<li class="active">Keyword</li>
 </ol>
-<h1 class="page-header" style="margin-top:0;">Keyword</h1>
+<h1 class="page-header" style="margin-top:0;">Keywords</h1>
 <!-- Keyword -->
 <div class="the-box full">
 	<div class="table-responsive">
@@ -13,10 +13,10 @@
 				<tr>
 					<th style="width: 30px;">No</th>
 					<th>Keyword</th>
-					<th>Pencarian per bulan</th>
-					<th>Persaingan</th>
-					<th>Harga</th>
-					<th>Aksi</th>
+					<th>Avg. Monthly Searches</th>
+					<th>Competition</th>
+					<th>BID</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>

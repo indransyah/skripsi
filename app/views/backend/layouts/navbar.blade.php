@@ -13,7 +13,7 @@
 				<span class="fa fa-arrows-h"></span>
 			</button>
 
-			<a data-scroll class="navbar-brand" href="#top">Keyword Planner</a>
+			<a data-scroll class="navbar-brand">Keyword Planner</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -21,11 +21,11 @@
 			
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					<a href="#fakelink" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Indransyah <b class="caret"></b></a>
+					<a href="#fakelink" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ Auth::user()->username; }} <b class="caret"></b></a>
 					<ul class="dropdown-menu square info no-border margin-list-rounded with-triangle">
-						<li><a href="#fakelink">Profil</a></li>
-						<li><a href="#fakelink">Pengaturan</a></li>
-						<li><a href="#fakelink">Keluar</a></li>
+						<li>{{ HTML::link('user/profile', 'Profile') }}</li>
+						<!-- li><a href="#fakelink">Settings</a></li> -->
+						<li>{{ HTML::link('user/logout', 'Logout') }}</li>
 					</ul>
 				</li>
 			</ul>
