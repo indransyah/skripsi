@@ -18,6 +18,6 @@ Route::get('/', function()
 Route::controller('home', 'HomeController');
 Route::controller('user', 'UserController');
 Route::resource('criteria', 'CriteriaController');
-// Route::resource('keyword', 'KeywordController', 
-// 	array('except'=>array('show', 'edit', 'update')));
+Route::resource('keyword', 'KeywordController', 
+	array('except'=>array('show', 'edit', 'update')));
 // Route::resource('criteria', 'CriteriaController');

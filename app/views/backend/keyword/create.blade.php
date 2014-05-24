@@ -1,12 +1,36 @@
 @extends('backend.layouts.index')
 @section('content')
 <ol class="breadcrumb">
-	<li><a href="#fakelink">Home</a></li>
-	<li class="active">Keyword</li>
+	<li>{{ HTML::link('home', 'Home') }}</li>
+	<li>{{ HTML::link('keyword', 'Keyword') }}</li>
+	<li class="active">Import</li>
 </ol>
-<h1 class="page-header" style="margin-top:0;">Add Keyword</h1>
+@if (Session::has('error'))
+<div class="alert alert-danger square fade in alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>{{ Session::get('error') }}</strong>
+  {{ HTML::ul($errors->all()) }}
+</div>
+@else
+<div class="alert alert-warning alert-bold-border fade in alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Make sure you import csv file from <a href="http://adwords.google.com" class="alert-link">Google AdWords Keyword Planner!</a></strong>
+</div>
+@endif
+<h1 class="page-header" style="margin-top:0;">Import Keywords</h1>
 <!-- Impor Keyword -->
-	<button class="btn btn-success btn-lg"><i class="glyphicon glyphicon-plus"></i> Import Keyword</button>
+<div class="row">
+	<div class="col-lg-6">
+	{{ Form::open(array('url'=>'keyword', 'class'=>'form-horizontal', 'files'=>'true')) }}
+		<!-- <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Import Keywords</button> -->
+		<!-- {{ Form::file('csv', array('class'=>'filestyle', 'data-buttonText'=>'Import', 'data-iconName'=>'glyphicon-plus', 'data-buttonName'=>'btn-success', 'data-buttonBefore'=>'true')) }} -->
+		{{ Form::file('csv', array('class'=>'filestyle', 'data-buttonText'=>'Browse', 'required'=>'true')) }}
+
+		<br />
+		<button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Import</button>
+	{{ Form::close() }}
+	</div>
+	</div>
 <!-- / Impor Keyword -->
 
 @stop

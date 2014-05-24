@@ -1,9 +1,15 @@
 @extends('backend.layouts.index')
 @section('content')
 <ol class="breadcrumb">
-	<li><a href="#fakelink">Home</a></li>
+	<li>{{ HTML::link('home', 'Home') }}</li>
 	<li class="active">Keyword</li>
 </ol>
+@if (Session::has('success'))
+<div class="alert alert-success square fade in alert-dismissable text-left">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<strong>{{ Session::get('success') }}</strong>
+</div>
+@endif
 <h1 class="page-header" style="margin-top:0;">Keywords</h1>
 <!-- Keyword -->
 <div class="the-box full">
@@ -20,7 +26,41 @@
 				</tr>
 			</thead>
 			<tbody>
+				@foreach($keywords as $key => $value)
 				<tr>
+					<td>{{ $key+1 }}</td>
+					<td>{{ $value->keyword }}</td>
+					<td>{{ $value->search }}</td>
+					<td>{{ $value->competition }}</td>
+					<td>{{ $value->bid }}</td>
+					<td>
+						<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->id }}">
+							<i class="glyphicon glyphicon-trash"></i>
+						</a>
+						<div class="modal fade" id="deleteModal-{{ $value->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="myModalLabel">DELETE CONFIRMATION</h4>
+									</div>
+									<div class="modal-body">
+										Are you sure to delete {{ $value->keyword }} from your database ?
+									</div>
+									<div class="modal-footer">
+										{{ Form::open(array('url'=>'keyword/'.$value->id, 'method'=>'DELETE',)) }}
+										<button type="submit" class="btn btn-danger">Delete
+										</button>
+										{{ Form::close() }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				@endforeach
+				
+				<!-- <tr>
 					<td>1</td>
 					<td>baju muslim</td>
 					<td>49500</td>
@@ -79,10 +119,11 @@
 							<i class="glyphicon glyphicon-trash"></i>
 						</button>
 					</td>
-				</tr>
+				</tr> -->
 			</tbody>
 		</table>
 	</div><!-- /.table-responsive -->
+	<a class="btn btn-success pull-left" href="{{ URL::to('keyword/create') }}"><i class="glyphicon glyphicon-plus"></i> Import</a>
 </div><!-- /.the-box full -->
 <!-- / Keyword -->
 

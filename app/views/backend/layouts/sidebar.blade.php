@@ -14,7 +14,7 @@
 				<li{{ Request::segment(1)=='criteria' && Request::segment(2)=='' ? ' class="active"' : '' }}>{{ HTML::link('criteria', 'View Criterias') }}</li>
 			</ul>
 		</li>
-		<li><a href="#fakelink">Settings <i class="fa fa-angle-down right-icon"></i></a>
+		<li><a href="#fakelink">User <i class="fa fa-angle-down right-icon"></i></a>
 			<ul{{ Request::segment(1)=='user' ? ' style="display: block;"' : '' }}>
 				<li{{ Request::segment(1)=='user' && Request::segment(3)=='edit' ? ' class="active"' : '' }}>{{ HTML::link('user/profile', 'Profile') }}</li>
 				<!-- <li{{ Request::segment(1)=='user' && Request::segment(2)=='' ? ' class="active"' : '' }}>{{ HTML::link('user', 'User') }}</li> -->

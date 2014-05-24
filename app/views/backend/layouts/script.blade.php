@@ -8,6 +8,7 @@
 {{ HTML::script('assets/plugins/owl-carousel/owl.carousel.js') }}
 {{ HTML::script('assets/js/ndoboost.min.js') }}
 {{ HTML::script('assets/plugins/jquery.nicescroll.js') }}
+{{ HTML::script('assets/plugins/bootstrap-filestyle.min.js') }}
 <script>
 	$(document).ready(function(){
 		
