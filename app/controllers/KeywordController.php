@@ -47,10 +47,54 @@ class KeywordController extends \BaseController {
 			$extension = $file->getClientOriginalExtension();
 			if ($extension=='csv') {
 				$upload = $file->move($destinationPath, $filename);
-				// $upload = $file->move($path, $filename);
 				if ($upload) {
-					return Redirect::to('keyword')
-					->with('success', 'Keywords successfully imported!');
+					$from = fopen(public_path().'/uploads/'.$filename, 'r+');
+					$arr = array();
+					$pass = true;
+					$header = array('group', 'keyword', 'currency', 'search', 'competition', 'bid', 'impression', 'account', 'plan');
+					while (($data = fgetcsv($from, 1000, "\t", '"')) !== false) {
+						if ($pass==false) {
+							unset($data[9]);
+							if (count($header) == count($data)) {
+								$arr[] = array_combine($header, $data);
+							}
+						} else {
+							$pass = false;
+						}
+					}
+					fclose($from);
+					return count($arr);
+					/*
+					$from = fopen(public_path().'/uploads/'.$filename, 'r+');
+					$arr = array();
+					$header = true;
+		            $fields = array('group', 'keyword', 'currency', 'search', 'competition', 'bid', 'impression', 'account', 'plan');
+					while (($data = fgetcsv($from, 1000, "\t", '"')) !== false) {
+						if ($header==false) {
+							$data = array_filter($data);
+							unset($data[9]);
+							$arr[] = array_combine($fields, $data);
+							print_r($arr);
+
+						} else {
+							$header = false;
+						}
+						// $arr[] = $headerRowExists ? array_combine($header, $data) : $data;
+					}
+					*/
+					// $cars=array("Volvo","BMW","Toyota");
+					// print_r($cars);
+					// echo $cars[1];
+					//Excel::load(public_path().'/uploads/'.$filename, function($reader) {})->get();
+					// CSV::setDelimiter("\t");
+					// CSV::setHeaderRowExists(true);
+					// $arrayCSV = CSV::fromFile(public_path().'/uploads/'.$filename)->toArray();
+					//print_r($arrayCSV);
+					// foreach ($csv as $key => $value) {
+					// 	return $value->keyword;
+					// }
+					// return Redirect::to('keyword')
+					// ->with('success', 'Keywords successfully imported!');
 				} else {
 					return Redirect::to('keyword/create')
 					->with('error', 'Ups! Upload failed!');

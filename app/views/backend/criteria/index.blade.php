@@ -1,6 +1,7 @@
 @extends('backend.layouts.index')
 @section('content')
-
+{{count($criterias)}}
+{{$criterias[2]->criteria}}
 <ol class="breadcrumb">
 	<li>{{ HTML::link('home', 'Home') }}</li>
 	<li class="active">Criteria</li>
@@ -118,6 +119,44 @@
 			</div><!-- /.table-responsive -->
 			<a class="btn btn-success pull-left" href="{{ URL::to('criteria/create') }}"><i class="glyphicon glyphicon-plus"></i> Add</a>
 		</div><!-- /.the-box full -->
+	</div>
+	<div class="col-lg-6">
+		<div class="the-box full">
+			<div class="table-responsive">
+				<table class="table table-info table-hover table-th-block">
+					<thead>
+						<tr>
+							<th>Criteria</th>
+							<th>Jugement</th>
+							<th>Criteria</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ($i = 0; $i < count($criterias); $i++)
+						@for ($j = $i+1; $j < count($criterias); $j++)
+						<tr>
+							<td>{{ $criterias[$i]->criteria }}</td>
+							<td>
+								<select class="form-control">
+									<option value="1">1. Sama penting dengan</option>
+									<option value="2">2. Mendekati sedikit lebih penting dari</option>
+									<option value="3">3. Sedikit lebih penting dari</option>
+									<option value="4">4. Mendekati lebih penting dari</option>
+									<option value="5">5. Lebih penting dari</option>
+									<option value="6">6. Mendekati sangat penting dari</option>
+									<option value="7">7. Sangat penting dari</option>
+									<option value="8">8. Mendekati mutlak dari</option>
+									<option value="9">9. Mutlak sangat penting dari</option>
+								</select>
+							</td>
+							<td>{{ $criterias[$j]->criteria }}</td>
+						</tr>
+						@endfor
+						@endfor
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 <!-- / Kriteria -->
