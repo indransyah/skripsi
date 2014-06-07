@@ -10,15 +10,13 @@
     {{ Form::open(array('url'=>'user/login', 'class'=>'form-signin')) }}
       <div class="row-fluid text-center">
         <img src="{{ asset('assets/images/logo.png') }}" style="margin-bottom: 20px;width: 200px;">
-        @if(Session::has('message'))
+        @if(Session::has('error'))
           <div class="alert alert-danger square fade in alert-dismissable">
-            <!-- <strong>Oh snap!</strong> Change a few things up and 
-            <a href="#" class="alert-link">try submitting again.</a> -->
-            {{ Session::get('message') }}
+            {{ Session::get('error') }}
           </div>
         @endif
         <!-- <br /> -->
-        <input name="email" type="email" class="form-control" placeholder="Email" required autofocus>
+        <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>
         <br />
         <input name="password" type="password" class="form-control" placeholder="Password" required>
           <!-- <label class="checkbox text-left">

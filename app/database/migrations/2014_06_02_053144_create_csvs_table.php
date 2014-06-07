@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubcriteriasTable extends Migration {
+class CreateCsvsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,9 @@ class CreateSubcriteriasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('subcriterias', function(Blueprint $table)
+		Schema::create('csvs', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('subcriteria');
-			$table->integer('id_criteria');
 			$table->timestamps();
 		});
 	}
@@ -28,7 +26,7 @@ class CreateSubcriteriasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('subcriterias');
+		Schema::drop('csvs');
 	}
 
 }

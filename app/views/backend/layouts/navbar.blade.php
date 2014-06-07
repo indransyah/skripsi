@@ -17,8 +17,8 @@
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
+		@if(Auth::check())
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#fakelink" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ Auth::user()->username; }} <b class="caret"></b></a>
@@ -30,5 +30,6 @@
 				</li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
+		@endif
 	</div><!-- /.container-fluid -->
 </nav>

@@ -11,13 +11,20 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('backend.user.login');
-});
+// Route::get('/', function()
+// {
+// 	return View::make('backend.user.login');
+// });
+Route::get('/', 'HomeController@getIndex');
 Route::controller('home', 'HomeController');
 Route::controller('user', 'UserController');
+Route::controller('judgment', 'JudgmentController');
 Route::resource('criteria', 'CriteriaController');
+Route::controller('subcriteria', 'SubcriteriaController');
+// Route::get('subcriteria/create/{id}', 'SubcriteriaController@create');
+// Route::resource('subcriteria', 'SubcriteriaController',
+// 	array('except'=>array('show')));
+// Route::get('subcriteria/create/{id}', 'SubcriteriaController@create');
 Route::resource('keyword', 'KeywordController', 
 	array('except'=>array('show', 'edit', 'update')));
-// Route::resource('criteria', 'CriteriaController');
+Route::controller('ahp', 'AHPController');

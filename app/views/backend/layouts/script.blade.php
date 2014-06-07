@@ -12,6 +12,11 @@
 <script>
 	$(document).ready(function(){
 		
+		/** CLICKABLE ROWs **/
+		$(".clickableRow").click(function() {
+			window.document.location = $(this).attr("href");
+		});
+
 		/** BUTTON SHOW / HIDDEN SIDEBAR **/
 		$(".btn-sidebar-collapse").click(function(){
 			$(".sidebar").toggleClass("collapse-sidebar");

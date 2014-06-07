@@ -11,7 +11,7 @@
 	<strong>{{ Session::get('success') }}</strong>
 </div>
 @endif
-<h1 class="page-header" style="margin-top:0;">Criterias</h1>
+<h1 class="page-header" style="margin-top:0;">{{$criteria->criteria}}'s Subcriteria</h1>
 <!-- Kriteria -->
 <div class="row">
 	<div class="col-lg-6">
@@ -22,24 +22,24 @@
 						<tr>
 							<th style="width: 30px;">#</th>
 							<th>ID</th>
-							<th style="width: 50%;">Criterias</th>
+							<th style="width: 50%;">Subriterias</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($criterias as $key => $value)
+						@foreach($subcriterias as $key => $value)
 						<tr>
 							<td>{{ $key+1 }}</td>
-							<td>{{ $value->criteria_id }}</td>
-							<td class="clickableRow" href="{{ URL::to('criteria/' . $value->criteria_id) }}" style="cursor:pointer;">{{ $value->criteria }}</td>
+							<td>{{ $value->subcriteria_id }}</td>
+							<td class="clickableRow" href="{{ URL::to('subcriteria/' . $value->subcriteria_id) }}" style="cursor:pointer;">{{ $value->subcriteria }}</td>
 							<td>
-								<a class="btn btn-info btn-sm" href="{{ URL::to('criteria/' . $value->criteria_id. '/edit') }}">
+								<a class="btn btn-info btn-sm" href="{{ URL::to('subcriteria/' . $value->subcriteria_id. '/edit') }}">
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
-								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->criteria_id }}">
+								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->subcriteria_id }}">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
-								<div class="modal fade" id="deleteModal-{{ $value->criteria_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal fade" id="deleteModal-{{ $value->subcriteria_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -47,10 +47,12 @@
 												<h4 class="modal-title" id="myModalLabel">DELETE CONFIRMATION</h4>
 											</div>
 											<div class="modal-body">
-												Are you sure to delete {{ $value->criteria }} from your database ?
+												Are you sure to delete {{ $value->subcriteria }} from your database ?
 											</div>
 											<div class="modal-footer">
-												{{ Form::open(array('url'=>'criteria/'.$value->criteria_id, 'method'=>'DELETE',)) }}
+												<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+												<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+												{{ Form::open(array('url'=>'subcriteria/'.$value->subcriteria_id, 'method'=>'DELETE',)) }}
 												<button type="submit" class="btn btn-danger">Delete
 												</button>
 												{{ Form::close() }}
@@ -60,11 +62,11 @@
 								</div>
 							</td>
 						</tr>
-						@endforeach					
+						@endforeach
 					</tbody>
 				</table>
 			</div><!-- /.table-responsive -->
-			<a class="btn btn-success pull-left" href="{{ URL::to('criteria/create') }}"><i class="glyphicon glyphicon-plus"></i> Add</a>
+			<a class="btn btn-success pull-left" href="{{ URL::to('subcriteria/create/'.$id) }}"><i class="glyphicon glyphicon-plus"></i> Add</a>
 		</div><!-- /.the-box full -->
 	</div>
 </div>

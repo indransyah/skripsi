@@ -70,6 +70,16 @@ class CriteriaController extends \BaseController {
 	public function show($id)
 	{
 		//
+		$criteria = Criteria::find($id);
+		// $subcriterias = Subcriteria::all();
+		$subcriterias = Subcriteria::where('criteria_id', '=', $id)->get();
+		$this->layout->content = View::make('backend.criteria.show')
+			->with(array(
+				'id' => $id,
+				'criteria' => $criteria,
+				'subcriterias' => $subcriterias
+				)
+			);
 	}
 
 
@@ -83,8 +93,13 @@ class CriteriaController extends \BaseController {
 	{
 		//
 		$criteria = Criteria::find($id);
-		$this->layout->content = View::make('backend.criteria.edit')
-			->with('criteria', $criteria);
+		if ($criteria) {
+			$this->layout->content = View::make('backend.criteria.edit')
+				->with('criteria', $criteria);
+		} else {
+			return Redirect::to('criteria');
+		}
+		
 	}
 
 

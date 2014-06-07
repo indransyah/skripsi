@@ -38,8 +38,6 @@ class KeywordController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
-		// $csv = Input::file('csv');
 		if (Input::hasFile('csv')) {
 			$file = Input::file('csv');
 			$destinationPath = public_path().'/uploads';
@@ -51,48 +49,35 @@ class KeywordController extends \BaseController {
 					$from = fopen(public_path().'/uploads/'.$filename, 'r+');
 					$arr = array();
 					$pass = true;
-					$header = array('group', 'keyword', 'currency', 'search', 'competition', 'bid', 'impression', 'account', 'plan');
+					$header = array('group', 'keyword', 'currency', 'search', 'competition', 'bid', 'impression', 'account', 'plan', 'extract');
 					while (($data = fgetcsv($from, 1000, "\t", '"')) !== false) {
 						if ($pass==false) {
-							unset($data[9]);
 							if (count($header) == count($data)) {
+								foreach ($data as $key => $value) {
+									$value = trim($value);
+									if (empty($value)) {
+										// echo "kosong ".$key."<br />";
+									}
+								}
 								$arr[] = array_combine($header, $data);
 							}
 						} else {
-							$pass = false;
+							$fields = array('Ad group', 'Keyword', 'Currency', 'Avg. Monthly Searches (exact match only)', 'Competition', 'Suggested bid', 'Impr. share', 'In account', 'In plan', 'Extracted From');
+							foreach ($data as $key => $value) {
+								$data[$key] = preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $value);
+							}
+							$check = array_diff($data, $fields);
+							if (empty($check)) {
+								echo "OK WAE";
+								$pass = false;
+							} else {
+								return Redirect::to('keyword/create')
+									->with('error', 'Ups! Not valid CSV file!');
+							}
 						}
 					}
 					fclose($from);
-					return count($arr);
-					/*
-					$from = fopen(public_path().'/uploads/'.$filename, 'r+');
-					$arr = array();
-					$header = true;
-		            $fields = array('group', 'keyword', 'currency', 'search', 'competition', 'bid', 'impression', 'account', 'plan');
-					while (($data = fgetcsv($from, 1000, "\t", '"')) !== false) {
-						if ($header==false) {
-							$data = array_filter($data);
-							unset($data[9]);
-							$arr[] = array_combine($fields, $data);
-							print_r($arr);
-
-						} else {
-							$header = false;
-						}
-						// $arr[] = $headerRowExists ? array_combine($header, $data) : $data;
-					}
-					*/
-					// $cars=array("Volvo","BMW","Toyota");
-					// print_r($cars);
-					// echo $cars[1];
-					//Excel::load(public_path().'/uploads/'.$filename, function($reader) {})->get();
-					// CSV::setDelimiter("\t");
-					// CSV::setHeaderRowExists(true);
-					// $arrayCSV = CSV::fromFile(public_path().'/uploads/'.$filename)->toArray();
-					//print_r($arrayCSV);
-					// foreach ($csv as $key => $value) {
-					// 	return $value->keyword;
-					// }
+					// print_r($arr);
 					// return Redirect::to('keyword')
 					// ->with('success', 'Keywords successfully imported!');
 				} else {
@@ -107,22 +92,6 @@ class KeywordController extends \BaseController {
 			return Redirect::to('keyword/create')
 					->with('error', 'Ups! Upload failed. Please select a csv file!');
 		}
-		
-		// return Input::file('csv')->getMimeType();
-		// $validator = Validator::make(Input::all(), Keyword::$rules);
-		// if ($validator->passes()) {
-		// 	// $criteria = new Criteria;
-		// 	// $criteria->criteria = Input::get('criteria');
-		// 	// $criteria->description = Input::get('description');
-		// 	// $criteria->save();
-		// 	return Redirect::to('keyword')
-		// 	->with('success', 'Keywords successfully imported!');
-		// } else {
-		// 	return Redirect::to('keyword/create')
-		// 	->with('error', 'The following errors occurred')
-		// 	->withErrors($validator)
-		// 	->withInput();
-		// }
 	}
 
 
