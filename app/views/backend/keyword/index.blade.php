@@ -10,6 +10,7 @@
 	<strong>{{ Session::get('success') }}</strong>
 </div>
 @endif
+{{ HTML::ul($errors->all()) }}
 <h1 class="page-header" style="margin-top:0;">Keywords</h1>
 <!-- Keyword -->
 <div class="the-box full">
@@ -18,10 +19,16 @@
 			<thead>
 				<tr>
 					<th style="width: 30px;">No</th>
+					<th>Group</th>
 					<th>Keyword</th>
-					<th>Avg. Monthly Searches</th>
+					<th>Currency</th>
+					<th>Search</th>
 					<th>Competition</th>
 					<th>BID</th>
+					<th>Impression</th>
+					<th>Account</th>
+					<th>Plan</th>
+					<th>Extract</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -29,10 +36,16 @@
 				@foreach($keywords as $key => $value)
 				<tr>
 					<td>{{ $key+1 }}</td>
+					<td>{{ $value->group }}</td>
 					<td>{{ $value->keyword }}</td>
+					<td>{{ $value->currency }}</td>
 					<td>{{ $value->search }}</td>
 					<td>{{ $value->competition }}</td>
 					<td>{{ $value->bid }}</td>
+					<td>{{ $value->impression }}</td>
+					<td>{{ $value->account }}</td>
+					<td>{{ $value->plan }}</td>
+					<td>{{ $value->extract }}</td>
 					<td>
 						<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->id }}">
 							<i class="glyphicon glyphicon-trash"></i>
@@ -48,7 +61,7 @@
 										Are you sure to delete {{ $value->keyword }} from your database ?
 									</div>
 									<div class="modal-footer">
-										{{ Form::open(array('url'=>'keyword/'.$value->id, 'method'=>'DELETE',)) }}
+										{{ Form::open(array('url'=>'keyword/'.$value->keyword_id, 'method'=>'DELETE',)) }}
 										<button type="submit" class="btn btn-danger">Delete
 										</button>
 										{{ Form::close() }}

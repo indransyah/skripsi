@@ -20,9 +20,9 @@
 				<table class="table table-info table-hover table-th-block">
 					<thead>
 						<tr>
-							<th style="width: 30px;">#</th>
-							<th>ID</th>
-							<th style="width: 50%;">Subriterias</th>
+							<th style="width: 10%;">#</th>
+							<!-- <th>ID</th> -->
+							<th style="width: 70%;">Subriterias</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -30,13 +30,13 @@
 						@foreach($subcriterias as $key => $value)
 						<tr>
 							<td>{{ $key+1 }}</td>
-							<td>{{ $value->subcriteria_id }}</td>
-							<td class="clickableRow" href="{{ URL::to('subcriteria/' . $value->subcriteria_id) }}" style="cursor:pointer;">{{ $value->subcriteria }}</td>
+							<!-- <td>{{ $value->subcriteria_id }}</td> -->
+							<td data-toggle="tooltip" data-placement="top" title="{{ $value->description }}">{{ $value->subcriteria }}</td>
 							<td>
-								<a class="btn btn-info btn-sm" href="{{ URL::to('subcriteria/' . $value->subcriteria_id. '/edit') }}">
+								<a class="btn btn-info btn-sm" href="{{ URL::to('subcriteria/edit/'.$value->subcriteria_id.'/'.$id) }}" title="Edit subcriteria">
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
-								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->subcriteria_id }}">
+								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->subcriteria_id }}" title="Delete subcriteria">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
 								<div class="modal fade" id="deleteModal-{{ $value->subcriteria_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -52,9 +52,9 @@
 											<div class="modal-footer">
 												<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
 												<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-												{{ Form::open(array('url'=>'subcriteria/'.$value->subcriteria_id, 'method'=>'DELETE',)) }}
-												<button type="submit" class="btn btn-danger">Delete
-												</button>
+												{{ Form::open(array('url'=>'subcriteria/destroy/'.$value->subcriteria_id.'/'.$id)) }}
+												<!-- {{ Form::hidden('criteria_id', $id); }} -->
+												<button type="submit" class="btn btn-danger">Delete</button>
 												{{ Form::close() }}
 											</div>
 										</div>

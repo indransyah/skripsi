@@ -63,14 +63,15 @@ class SubcriteriaController extends \BaseController {
 	{
 		$input = Input::all();
 		$rules = Subcriteria::$rules;
-		$rules['subcriteria'] .= ','.Input::get('criteria_id');
+		$rules['subcriteria'] .= ',NULL,subcriteria_id,criteria_id,'.$id;
 		$validator = Validator::make($input, $rules);
 		if ($validator->passes()) {
 			$subcriteria = new Subcriteria;
 			$subcriteria->subcriteria = Input::get('subcriteria');
 			$subcriteria->description = Input::get('description');
-			$subcriteria->condition = Input::get('condition');
-			$subcriteria->criteria_id = Input::get('criteria_id');
+			$subcriteria->filter = Input::get('filter');
+			$subcriteria->conditional = Input::get('conditional');
+			$subcriteria->criteria_id = $id;
 			$subcriteria->save();
 			return Redirect::to('criteria/'.$id)
 				->with('success', 'Subcriteria successfully added!');
@@ -89,9 +90,27 @@ class SubcriteriaController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function getEdit($id)
+	public function getEdit($id = null, $criteria_id = null)
 	{
-		//
+		$subcriteria = Subcriteria::find($id);
+		if ($subcriteria) {
+			$this->layout->content = View::make('backend.subcriteria.edit')
+				->with(array(
+				'id' => $criteria_id,
+				'subcriteria' => $subcriteria
+				)
+			);
+		} else {
+			return Redirect::to('criteria');
+		}
+		// return $criteria_id;
+		// $subcriteria = Subcriteria::find($id);
+		// if ($subcriteria) {
+		// 	$this->layout->content = View::make('backend.subcriteria.edit')
+		// 		->with('subcriteria', $subcriteria);
+		// } else {
+		// 	return Redirect::to('criteria');
+		// }
 	}
 
 
@@ -101,9 +120,27 @@ class SubcriteriaController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function postUpdate($id)
+	public function postUpdate($id,$criteria_id)
 	{
-		//
+		$input = Input::all();
+		$rules = Subcriteria::$rules;
+		$rules['subcriteria'] .= ','.$id.',subcriteria_id,criteria_id,'.$criteria_id;
+		$validator = Validator::make($input, $rules);
+		if ($validator->passes()) {
+			$subcriteria = Subcriteria::find($id);
+			$subcriteria->subcriteria = Input::get('subcriteria');
+			$subcriteria->description = Input::get('description');
+			$subcriteria->filter = Input::get('filter');
+			$subcriteria->conditional = Input::get('conditional');
+			$subcriteria->save();
+			return Redirect::to('criteria/'.$criteria_id)
+				->with('success', 'Subcriteria successfully edited!');
+		} else {
+			return Redirect::to('subcriteria/edit/'.$id.'/'.$criteria_id)
+				->with('error', 'The following errors occurred')
+				->withErrors($validator)
+				->withInput();
+		}
 	}
 
 
@@ -113,9 +150,12 @@ class SubcriteriaController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function postDestroy($id)
+	public function postDestroy($id,$criteria_id)
 	{
-		//
+		$subcriteria = Subcriteria::find($id);
+		$subcriteria->delete();
+		return Redirect::to('criteria/'.$criteria_id)
+			->with('success', 'Subcriteria successfully deleted!');
 	}
 
 

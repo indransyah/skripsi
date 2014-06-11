@@ -9,10 +9,16 @@ class Keyword extends Eloquent {
 	public $timestamps = false;
 	
 	public static $rules = array(
+		'group'=>'required',
 		'keyword'=>'required',
-		'search'=>'required|numeric',
-		'competition'=>'required|numeric',
-		'bid'=>'required|numeric'
+		'currency'=>'required',
+		'search'=>'required|integer',
+		'competition'=>'required',
+		'bid'=>'required',
+		'impression'=>'required',
+		'account'=>'required',
+		'plan'=>'required',
+		'extract'=>'sometimes'
 	);
 	
 }

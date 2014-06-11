@@ -9,10 +9,10 @@ class Subcriteria extends Eloquent {
 	public $timestamps = false;
 
 	public static $rules = array(
-		'subcriteria'=>'required|max:30|unique:subcriterias,subcriteria,null,subcriteria_id,criteria_id',
+		'subcriteria'=>'required|max:30|unique:subcriterias,subcriteria',
 		'description'=>'required|max:200',
 		'filter'=>'sometimes',
-		'condition'=>'required'
+		'conditional'=>'required'
 	);
 	
 }

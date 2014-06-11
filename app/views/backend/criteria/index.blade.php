@@ -20,23 +20,27 @@
 				<table class="table table-info table-hover table-th-block">
 					<thead>
 						<tr>
-							<th style="width: 30px;">#</th>
-							<th>ID</th>
-							<th style="width: 50%;">Criterias</th>
-							<th>Actions</th>
+							<th style="width: 10%;">#</th>
+							<!-- <th>ID</th> -->
+							<th style="width: 65%;">Criterias</th>
+							<th class="text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach($criterias as $key => $value)
 						<tr>
 							<td>{{ $key+1 }}</td>
-							<td>{{ $value->criteria_id }}</td>
-							<td class="clickableRow" href="{{ URL::to('criteria/' . $value->criteria_id) }}" style="cursor:pointer;">{{ $value->criteria }}</td>
+							<!-- <td>{{ $value->criteria_id }}</td> -->
+							<!-- <td class="clickableRow" href="{{ URL::to('criteria/' . $value->criteria_id) }}" style="cursor:pointer;">{{ $value->criteria }}</td> -->
+							<td data-toggle="tooltip" data-placement="top" title="{{ $value->description }}">{{ $value->criteria }}</td>
 							<td>
-								<a class="btn btn-info btn-sm" href="{{ URL::to('criteria/' . $value->criteria_id. '/edit') }}">
+								<a class="btn btn-default btn-sm" href="{{ URL::to('criteria/' . $value->criteria_id) }}" data-toggle="tooltip" data-placement="left" title="Show subcriterias">
+									<i class="glyphicon glyphicon-indent-left"></i>
+								</a>
+								<a class="btn btn-info btn-sm" href="{{ URL::to('criteria/' . $value->criteria_id. '/edit') }}" data-toggle="tooltip" data-placement="top" title="Edit criteria">
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
-								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->criteria_id }}">
+								<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->criteria_id }}" data-toggle="tooltip" data-placement="right" title="Delete criteria">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
 								<div class="modal fade" id="deleteModal-{{ $value->criteria_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

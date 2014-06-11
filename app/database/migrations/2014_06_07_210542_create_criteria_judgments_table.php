@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubcriteriasTable extends Migration {
+class CreateCriteriaJudgmentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,14 @@ class CreateSubcriteriasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('subcriterias', function(Blueprint $table)
+		Schema::create('criteria_judgments', function(Blueprint $table)
 		{
-			$table->increments('subcriteria_id');
-			$table->string('subcriteria');
-			$table->longText('description');
-			$table->string('filter');
-			$table->string('conditional');
+			$table->increments('id');
 			$table->unsignedInteger('criteria_id');
+			$table->integer('judgment');
+			$table->unsignedInteger('compared_criteria_id');
 			$table->foreign('criteria_id')->references('criteria_id')->on('criterias')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('compared_criteria_id')->references('criteria_id')->on('criterias')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 
@@ -31,7 +30,7 @@ class CreateSubcriteriasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('subcriterias');
+		Schema::drop('criteria_judgments');
 	}
 
 }

@@ -13,6 +13,7 @@ class KeywordController extends \BaseController {
 	public function index()
 	{
 		//
+		// $keywords = Keyword::where('keyword', '=', 'baju muslim')->get();
 		$keywords = Keyword::all();
 		$this->layout->content = View::make('backend.keyword.index')->with('keywords', $keywords);
 	}
@@ -54,10 +55,7 @@ class KeywordController extends \BaseController {
 						if ($pass==false) {
 							if (count($header) == count($data)) {
 								foreach ($data as $key => $value) {
-									$value = trim($value);
-									if (empty($value)) {
-										// echo "kosong ".$key."<br />";
-									}
+									$data[$key] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value);
 								}
 								$arr[] = array_combine($header, $data);
 							}
@@ -67,19 +65,49 @@ class KeywordController extends \BaseController {
 								$data[$key] = preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $value);
 							}
 							$check = array_diff($data, $fields);
-							if (empty($check)) {
-								echo "OK WAE";
-								$pass = false;
-							} else {
+							if (!empty($check)) {
+								fclose($from);
 								return Redirect::to('keyword/create')
 									->with('error', 'Ups! Not valid CSV file!');
+							} else {
+								$pass = false;
 							}
 						}
 					}
 					fclose($from);
-					// print_r($arr);
-					// return Redirect::to('keyword')
-					// ->with('success', 'Keywords successfully imported!');
+					foreach ($arr as $index => $value) {
+						$arr[$index]['search'] = (int) $value['search'];
+						$arr[$index]['competition'] = (float) $value['competition'];
+						$arr[$index]['bid'] = (float) $value['bid'];
+						$arr[$index]['impression'] = (float) $value['impression'];
+						foreach ($value as $field => $item) {
+							if (empty($item)) {
+								$arr[$index][$field] = 0;
+							}
+						}
+					}
+					Keyword::where('csv', '=', $filename)->delete();
+					foreach ($arr as $key => $value) {
+						$validator = Validator::make($value, Keyword::$rules);
+						if ($validator->passes()) {
+							$keyword = new Keyword;
+							$keyword->group = $value['group'];
+							$keyword->keyword = $value['keyword'];
+							$keyword->currency = $value['currency'];
+							$keyword->search = $value['search'];
+							$keyword->competition = $value['competition'];
+							$keyword->bid = $value['bid'];
+							$keyword->impression = $value['impression'];
+							$keyword->account = $value['account'];
+							$keyword->plan = $value['plan'];
+							$keyword->extract = $value['extract'];
+							$keyword->csv = $filename;
+							$keyword->save();
+						}
+					}
+					// var_dump($arr);
+					return Redirect::to('keyword')
+					->with('success', 'Keywords successfully imported!');
 				} else {
 					return Redirect::to('keyword/create')
 					->with('error', 'Ups! Upload failed!');
@@ -90,7 +118,7 @@ class KeywordController extends \BaseController {
 			}
 		} else {
 			return Redirect::to('keyword/create')
-					->with('error', 'Ups! Upload failed. Please select a csv file!');
+			->with('error', 'Ups! Upload failed. Please select a csv file!');
 		}
 	}
 

@@ -15,11 +15,16 @@ class CreateKeywordsTable extends Migration {
 		Schema::create('keywords', function(Blueprint $table)
 		{
 			$table->increments('keyword_id');
+			$table->string('group');
 			$table->string('keyword');
-			$table->integer('word');
+			$table->string('currency');
 			$table->integer('search');
-			$table->float('competition');
-			$table->float('bid');
+			$table->decimal('competition',5,2);
+			$table->decimal('bid',5,2);
+			$table->decimal('impression',5,2);
+			$table->string('account');
+			$table->string('plan');
+			$table->string('extract');
 			$table->string('csv');
 			// $table->timestamps();
 		});
