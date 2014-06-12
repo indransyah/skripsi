@@ -118,10 +118,7 @@ return array(
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-		'Illuminate\Workbench\WorkbenchServiceProvider',
-		// 'mnshankar\CSV\CSVServiceProvider',
-		// 'Maatwebsite\Excel\ExcelServiceProvider',
-
+		'Illuminate\Workbench\WorkbenchServiceProvider'
 	),
 
 	/*
@@ -186,10 +183,7 @@ return array(
 		'Str'             => 'Illuminate\Support\Str',
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
-		'View'            => 'Illuminate\Support\Facades\View',
-		// 'CSV'             =>'mnshankar\CSV\CSVFacade',
-		// 'Excel' => 'Maatwebsite\Excel\Facades\Excel',
-
+		'View'            => 'Illuminate\Support\Facades\View'
 	),
 
 );

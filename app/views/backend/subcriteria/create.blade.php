@@ -30,6 +30,12 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="field" class="col-sm-2 control-label">Field</label>
+        <div class="col-sm-10">
+           {{ Form::select('field', array('group'=>'Group', 'keyword'=>'Keyword', 'currency'=>'Currency', 'search'=>'Search', 'competition'=>'Competition', 'bid'=>'BID', 'impression'=>'Impression', 'account'=>'Account', 'plan'=>'Plan', 'extract'=>'Extract'), null, array('class'=>'form-control','required'=>'true')) }}
+        </div>
+      </div>
+      <div class="form-group">
         <label for="criteria" class="col-sm-2 control-label">Filter</label>
         <div class="col-sm-10">
            {{ Form::text('filter', null, array('class'=>'form-control', 'placeholder'=>'Filter')) }}

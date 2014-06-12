@@ -69,6 +69,7 @@ class SubcriteriaController extends \BaseController {
 			$subcriteria = new Subcriteria;
 			$subcriteria->subcriteria = Input::get('subcriteria');
 			$subcriteria->description = Input::get('description');
+			$subcriteria->field = Input::get('field');
 			$subcriteria->filter = Input::get('filter');
 			$subcriteria->conditional = Input::get('conditional');
 			$subcriteria->criteria_id = $id;

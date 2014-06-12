@@ -16,6 +16,9 @@ class JudgmentController extends \BaseController {
 
 	protected $layout = 'backend.layouts.index';
 
+	// protected $ri = array(0,0,0,0.58,0.90,1.12,1.24,1.32,1.41,1.45,1.49,1.51,1.48,1.56,1.57,1.59);
+	protected $RI = array(0,0,0,0.58,0.90,1.12,1.24,1.32,1.41,1.45,1.49,1.51);
+
 	protected $options = array(
 			'1'=>'1. Sama penting dengan',
 			'2'=>'2. Mendekati sedikit lebih penting dari',
@@ -41,9 +44,104 @@ class JudgmentController extends \BaseController {
 
 	public function postCriteria()
 	{
-		// var_dump(Input::all());
-		return Redirect::to('judgment/criteria')
-			->withInput();
+		$judgments[] = array();
+		$criterias = Criteria::all();
+		$max = count($criterias);
+		for ($i=0; $i < $max; $i++) {
+			$total[$i] = 0; 
+			for ($j=0; $j < $max; $j++) {
+				if ($i==$j) {
+					$judgments[$i][$j] = (float) 1;
+				} else {
+					$tmp = Input::get($criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id);
+					if (is_null($tmp)) {
+						$input = (float) 1 / Input::get($criterias[$j]->criteria_id.'-'.$criterias[$i]->criteria_id);
+					} else {
+						$input = (float) Input::get($criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id);
+					}
+					$judgments[$i][$j] = $input;
+				}
+			}
+		}
+
+		$judgmentTotal = array();
+		for ($i=0; $i < $max; $i++) { 
+			$judgmentTotal[$i] = 0;
+			for ($j=0; $j < $max; $j++) { 
+				$judgmentTotal[$i] += $judgments[$j][$i];
+			}
+		}	
+
+		$normalization[] = array();
+		for ($i=0; $i < $max; $i++) { 
+			for ($j=0; $j < $max; $j++) { 
+				$normalization[$i][$j] = $judgments[$i][$j] / $judgmentTotal[$j];
+			}
+		}
+
+		$normalizationTotal = array();
+		for ($i=0; $i < $max; $i++) { 
+			$normalizationTotal[$i] = 0;
+			for ($j=0; $j < $max; $j++) { 
+				$normalizationTotal[$i] += $normalization[$j][$i];
+			}
+		}
+
+		$tpv = array();
+		for ($i=0; $i < $max; $i++) { 
+			$tpv[$i] = 0;
+			for ($j=0; $j < $max; $j++) { 
+				$tpv[$i] += $normalization[$i][$j];
+				if ($j == $max-1) {
+					$tpv[$i] /= $max;
+				}
+			}
+		}
+
+		$ranking = array();
+		for ($i=0; $i < $max; $i++) { 
+			$ranking[$i] = 0;
+			for ($j=0; $j < $max; $j++) { 
+				$ranking[$i] = $tpv[$i]/max($tpv);
+			}
+		}
+
+		$Ax = array();
+		for ($i=0; $i < $max; $i++) { 
+			$Ax[$i] = 0;
+			for ($j=0; $j < $max; $j++) { 
+				$Ax[$i] += $judgments[$i][$j] * $tpv[$j];
+				// echo $i." Ax ".round($Ax[$i],2)." = ".round($judgments[$i][$j],2)."*".round($tpv[$j],2).'|';
+			}
+			// echo "<br>";
+		}
+
+		$tmp = 0;
+		for ($i=0; $i < $max; $i++) { 
+			$tmp += $Ax[$i]/$tpv[$i];
+		}
+		$t = (1/$max)*$tmp;
+		$CI = ($t-$max)/($max-1);
+		$CR = $CI/$this->RI[$max];
+		if ($CR <= 0.1) {
+			$status = "KONSISTEN";
+		} else {
+			$status = "TIDAK KONSISTEN";
+		}
+
+		$criterias = Criteria::all();
+		$this->layout->content = View::make('backend.judgment.pairwisecomparison')
+			->with(array(
+				'criterias'=>$criterias, 
+				'judgments'=>$judgments, 
+				'judgmentTotal'=>$judgmentTotal, 
+				'normalization'=>$normalization, 
+				'normalizationTotal'=>$normalizationTotal,
+				'tpv'=>$tpv,
+				'ranking'=>$ranking,
+				'Ax'=>$Ax,
+				'status'=>$status
+				));
 	}
 
 	public function getSubcriteria($id = null)

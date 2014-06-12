@@ -11,6 +11,7 @@ class Subcriteria extends Eloquent {
 	public static $rules = array(
 		'subcriteria'=>'required|max:30|unique:subcriterias,subcriteria',
 		'description'=>'required|max:200',
+		'field'=>'required',
 		'filter'=>'sometimes',
 		'conditional'=>'required'
 	);

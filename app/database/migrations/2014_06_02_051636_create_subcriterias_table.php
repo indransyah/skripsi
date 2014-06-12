@@ -17,6 +17,7 @@ class CreateSubcriteriasTable extends Migration {
 			$table->increments('subcriteria_id');
 			$table->string('subcriteria');
 			$table->longText('description');
+			$table->string('field');
 			$table->string('filter');
 			$table->string('conditional');
 			$table->unsignedInteger('criteria_id');

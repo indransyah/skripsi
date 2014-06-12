@@ -38,7 +38,7 @@
 							@for ($j = $i+1; $j < count($criterias); $j++)
 							<tr>
 								<td id="label|{{ $criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id }}">{{ $criterias[$i]->criteria }}</td>
-								<td>{{ Form::select($criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id, $options, 2, array('class'=>'form-control','id'=>$criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id)) }}
+								<td>{{ Form::select($criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id, $options, null, array('class'=>'form-control','id'=>$criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id)) }}
 									<!-- <select id="{{ $criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id }}" name="{{ $criterias[$i]->criteria_id.'-'.$criterias[$j]->criteria_id }}" class="form-control">
 										<option value="1">1. Sama penting dengan</option>
 										<option value="2">2. Mendekati sedikit lebih penting dari</option>
