@@ -140,6 +140,7 @@ class CriteriaController extends \BaseController {
 		//
 		$criteria = Criteria::find($id);
 		$criteria->delete();
+		DB::table('criteria_judgments')->delete();
 		return Redirect::to('criteria')
 			->with('success', 'Criteria successfully deleted!');
 	}

@@ -12,9 +12,8 @@ class KeywordController extends \BaseController {
 
 	public function index()
 	{
-		//
-		// $keywords = Keyword::where('keyword', '=', 'baju muslim')->get();
-		$keywords = Keyword::all();
+		// $keywords = Keyword::all();
+		$keywords = Keyword::paginate(5);
 		$this->layout->content = View::make('backend.keyword.index')->with('keywords', $keywords);
 	}
 
@@ -26,9 +25,7 @@ class KeywordController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
 		$this->layout->content = View::make('backend.keyword.create');
-		//return 'create';
 	}
 
 
@@ -68,7 +65,7 @@ class KeywordController extends \BaseController {
 							if (!empty($check)) {
 								fclose($from);
 								return Redirect::to('keyword/create')
-									->with('error', 'Ups! Not valid CSV file!');
+								->with('error', 'Ups! Not valid CSV file!');
 							} else {
 								$pass = false;
 							}
@@ -87,9 +84,48 @@ class KeywordController extends \BaseController {
 						}
 					}
 					Keyword::where('csv', '=', $filename)->delete();
+					$subcriterias = Subcriteria::all();
 					foreach ($arr as $key => $value) {
 						$validator = Validator::make($value, Keyword::$rules);
 						if ($validator->passes()) {
+							for ($i=0; $i < count($subcriterias); $i++) {
+								
+								/*for ($j=0; $j < count($header); $j++) { 
+									// var_dump($subcriterias[$i]);
+									// return 'ok';
+									if ($subcriterias[$i]->field == $header[$j]) {
+										$conditional = explode(';', $subcriterias[$i]->conditional);
+										if (count($conditional)==2) {
+											$subconditional = array(0,0);
+											$map = array(
+												'=>' => $subconditional[0] > $subconditional[1],
+												'<=' => $subconditional[0] <= $subconditional[1],
+												'==' => $subconditional[0] == $subconditional[1],
+												'!=' => $subconditional[0] != $subconditional[1],
+												);
+											for ($k=0; $k < 2; $k++) { 
+												foreach ($map as $key => $value) {
+													$subconditional[$k] = explode($key, $conditional[$k]);
+													if (count($subconditional[$k])==2) {
+														$parameter = $key;
+													}
+													var_dump($subconditional);
+													//echo $parameter;
+												}
+											}
+										} else {
+											foreach ($map as $key => $value) {
+												$subconditional[0] = explode($key, $conditional);
+												if ($subconditional[0]<1) {
+													$parameter = $key;
+												}
+											}
+										}
+
+									}
+								} */
+							}
+
 							$keyword = new Keyword;
 							$keyword->group = $value['group'];
 							$keyword->keyword = $value['keyword'];
@@ -109,16 +145,13 @@ class KeywordController extends \BaseController {
 					return Redirect::to('keyword')
 					->with('success', 'Keywords successfully imported!');
 				} else {
-					return Redirect::to('keyword/create')
-					->with('error', 'Ups! Upload failed!');
+					return Redirect::to('keyword/create')->with('error', 'Ups! Upload failed!');
 				}
 			} else {
-				return Redirect::to('keyword/create')
-				->with('error', 'Import a csv file from <a href="http://adwords.google.com" class="alert-link">Google AdWords Keyword Planner!</a>!');
+				return Redirect::to('keyword/create')->with('error', 'Import a csv file from <a href="http://adwords.google.com" class="alert-link">Google AdWords Keyword Planner!</a>!');
 			}
 		} else {
-			return Redirect::to('keyword/create')
-			->with('error', 'Ups! Upload failed. Please select a csv file!');
+			return Redirect::to('keyword/create')->with('error', 'Ups! Upload failed. Please select a csv file!');
 		}
 	}
 
@@ -131,11 +164,9 @@ class KeywordController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
 		$keyword = Keyword::find($id);
 		$keyword->delete();
-		return Redirect::to('keyword')
-			->with('success', 'Keyword successfully deleted!');
+		return Redirect::to('keyword')->with('success', 'Keyword successfully deleted!');
 	}
 
 

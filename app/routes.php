@@ -27,4 +27,4 @@ Route::controller('subcriteria', 'SubcriteriaController');
 // Route::get('subcriteria/create/{id}', 'SubcriteriaController@create');
 Route::resource('keyword', 'KeywordController', 
 	array('except'=>array('show', 'edit', 'update')));
-Route::controller('ahp', 'AHPController');
+// Route::controller('ahp', 'AHPController');

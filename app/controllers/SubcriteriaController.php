@@ -155,6 +155,7 @@ class SubcriteriaController extends \BaseController {
 	{
 		$subcriteria = Subcriteria::find($id);
 		$subcriteria->delete();
+		DB::table('subcriteria_judgments')->where('criteria_id', '=', $criteria_id)->delete();
 		return Redirect::to('criteria/'.$criteria_id)
 			->with('success', 'Subcriteria successfully deleted!');
 	}

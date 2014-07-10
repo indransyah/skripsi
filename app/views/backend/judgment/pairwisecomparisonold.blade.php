@@ -11,6 +11,17 @@
 	<strong>{{ Session::get('success') }}</strong>
 </div>
 @endif
+@if ($consistent==true)
+<div class="alert alert-success square fade in alert-dismissable text-left">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<strong>Pairwise Comparison CONSISTENT</strong>
+</div>
+@else
+<div class="alert alert-danger square fade in alert-dismissable text-left">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<strong>Pairwise Comparison NOT CONSISTENT</strong>
+</div>
+@endif
 <?php
 $itemName = (is_null($items[0]->criteria) ? 'subcriteria' : 'criteria');
 $category = (is_null($items[0]->criteria) ? 'SUBCRITERIA' : 'CRITERIA');
@@ -33,7 +44,7 @@ $category = (is_null($items[0]->criteria) ? 'SUBCRITERIA' : 'CRITERIA');
 				<tr>
 					<td class="info">{{ $items[$i]->$itemName }} </td>
 					@for($j=0;$j<$max;$j++)
-					<td>{{ round($data[$i][$j], 2) }}</td>
+					<td>{{ round($judgments[$i][$j], 2) }}</td>
 					@endfor
 				</tr>
 				@if($i==($max-1))
@@ -109,7 +120,7 @@ $category = (is_null($items[0]->criteria) ? 'SUBCRITERIA' : 'CRITERIA');
 				@for($i=0;$i<$max;$i++)
 				<tr>
 					@for($j=0;$j<$max;$j++)
-					<td>{{ round($data[$i][$j], 2) }}</td>
+					<td>{{ round($judgments[$i][$j], 2) }}</td>
 					@endfor
 				</tr>
 				@endfor

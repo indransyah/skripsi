@@ -13,6 +13,13 @@
 @endif
 <h1 class="page-header" style="margin-top:0;">Criterias</h1>
 <!-- Kriteria -->
+@if(count($criterias)==0)
+<div class="alert alert-info alert-bold-border fade in alert-dismissable text-center">
+	<strong>There is no criteria. {{ HTML::link('criteria/create', 'Add criteria?', array('class'=>'alert-link')) }}</strong>
+	<!-- <strong>There is no criteria.</strong> -->
+</div>
+<!-- <a class="btn btn-success" href="{{ URL::to('criteria/create') }}"><i class="glyphicon glyphicon-plus"></i> Add Criteria</a> -->
+@else
 <div class="row">
 	<div class="col-lg-6">
 		<div class="the-box full">
@@ -72,5 +79,6 @@
 		</div><!-- /.the-box full -->
 	</div>
 </div>
+@endif
 <!-- / Kriteria -->
 @stop

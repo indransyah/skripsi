@@ -12,16 +12,16 @@
 	<strong>{{ Session::get('success') }}</strong>
 </div>
 @endif
-<h1 class="page-header" style="margin-top:0;">Criteria Judgment</h1>
+<h1 class="page-header" style="margin-top:0;">Criteria Judgments</h1>
 <!-- Kriteria -->
 @if(count($criterias)<2)
-<div class="alert alert-warning fade in alert-dismissable text-center">
+<div class="alert alert-info alert-bold-border fade in alert-dismissable text-center">
   <strong>Criteria must be at least 2 criteria!</strong>
 </div>
 @else
 <div class="row">
 	<div class="col-lg-8">
-		{{ Form::open(array('url'=>'judgment/criteria', 'class'=>'form-horizontal')) }}
+		{{ Form::open(array('url'=>'judgment/pairwisecomparison', 'class'=>'form-horizontal')) }}
 		<div class="the-box full">
 			<div class="table-responsive">
 				<table class="table table-info table-hover table-th-block">

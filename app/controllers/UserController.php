@@ -9,8 +9,8 @@ class UserController extends \BaseController {
 	 */
 	public function __construct()
 	{
-    	$this->beforeFilter('csrf', array('on'=>'post'));
-    	$this->beforeFilter('auth', array('only'=>array('getIndex','getProfile')));
+		$this->beforeFilter('csrf', array('on'=>'post'));
+		$this->beforeFilter('auth', array('only'=>array('getIndex','getProfile')));
 	}
 
 	protected $layout = 'backend.layouts.index';
@@ -33,10 +33,10 @@ class UserController extends \BaseController {
 	public function postLogin()
 	{
 		if (Auth::attempt(array('username'=>Input::get('username'), 'password'=>Input::get('password')))) {
-		return Redirect::to('home')
+			return Redirect::to('home')
 			->with('success', 'You are now logged in!');
 		} else {
-		return Redirect::to('user/login')
+			return Redirect::to('user/login')
 			->with('error', 'Your username/password combination was incorrect')
 			->withInput();
 		}
@@ -56,19 +56,19 @@ class UserController extends \BaseController {
 		unset($rules['password']);
 		unset($rules['password_confirmation']);
 		$validator = Validator::make($input, $rules);
-	    if ($validator->passes()) {
-	    	$user = User::find(Auth::user()->user_id);
-	    	$user->name = Input::get('name');
-	    	$user->email = Input::get('email');
-	    	$user->save();
-	    	return Redirect::to('user/profile')
-	    		->with('success', 'Profile successfully changed!');
-	    } else {
-	        return Redirect::to('user/profile')
-				->with('error', 'The following errors occurred')
-				->withErrors($validator)
-				->withInput();
-	    }
+		if ($validator->passes()) {
+			$user = User::find(Auth::user()->user_id);
+			$user->name = Input::get('name');
+			$user->email = Input::get('email');
+			$user->save();
+			return Redirect::to('user/profile')
+			->with('success', 'Profile successfully changed!');
+		} else {
+			return Redirect::to('user/profile')
+			->with('error', 'The following errors occurred')
+			->withErrors($validator)
+			->withInput();
+		}
 	}
 
 	public function getPassword()
@@ -100,7 +100,7 @@ class UserController extends \BaseController {
 			}
 		} else {
 			return Redirect::to('user/password')
-				->with('error', 'Wrong current password!');
+			->with('error', 'Wrong current password!');
 		}
 	}
 
@@ -116,25 +116,25 @@ class UserController extends \BaseController {
 	public function postRegister()
 	{
 		$validator = Validator::make(Input::all(), User::$rules);
-	    if ($validator->passes()) {
-	    	$user = new User;
-	    	$user->name = Input::get('name');
-	    	$user->email = Input::get('email');
-	    	$user->username = Input::get('username');
-	    	$user->password = Hash::make(Input::get('password'));
-	    	$user->save();
-	    	return Redirect::to('user/login')->with('message', 'Thanks for registering!');
-	    } else {
-	        return Redirect::to('user/register')
-				->with('message', 'The following errors occurred')
-				->withErrors($validator)
-				->withInput();
-	    }
+		if ($validator->passes()) {
+			$user = new User;
+			$user->name = Input::get('name');
+			$user->email = Input::get('email');
+			$user->username = Input::get('username');
+			$user->password = Hash::make(Input::get('password'));
+			$user->save();
+			return Redirect::to('user/login')->with('message', 'Thanks for registering!');
+		} else {
+			return Redirect::to('user/register')
+			->with('message', 'The following errors occurred')
+			->withErrors($validator)
+			->withInput();
+		}
 	}
 	
 	public function getLogout()
 	{
-	    Auth::logout();
-	    return Redirect::to('user/login')->with('message', 'Your are now logged out!');
+		Auth::logout();
+		return Redirect::to('user/login')->with('message', 'Your are now logged out!');
 	}
 }

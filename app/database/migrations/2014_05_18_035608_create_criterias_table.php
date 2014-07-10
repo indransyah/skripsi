@@ -15,8 +15,9 @@ class CreateCriteriasTable extends Migration {
 		Schema::create('criterias', function(Blueprint $table)
 		{
 			$table->increments('criteria_id');
-			$table->string('criteria');
+			$table->string('criteria',20);
 			$table->longText('description');
+			$table->decimal('tpv',5,2);
 			// $table->timestamps();
 		});
 	}

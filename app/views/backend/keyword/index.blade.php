@@ -18,7 +18,7 @@
 		<table class="table table-info table-hover table-th-block">
 			<thead>
 				<tr>
-					<th style="width: 30px;">No</th>
+					<!-- <th style="width: 30px;">No</th> -->
 					<th>Group</th>
 					<th>Keyword</th>
 					<th>Currency</th>
@@ -35,7 +35,7 @@
 			<tbody>
 				@foreach($keywords as $key => $value)
 				<tr>
-					<td>{{ $key+1 }}</td>
+					<!-- <td>{{ $key+1 }}</td> -->
 					<td>{{ $value->group }}</td>
 					<td>{{ $value->keyword }}</td>
 					<td>{{ $value->currency }}</td>
@@ -47,10 +47,10 @@
 					<td>{{ $value->plan }}</td>
 					<td>{{ $value->extract }}</td>
 					<td>
-						<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->id }}">
+						<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $value->keyword_id }}">
 							<i class="glyphicon glyphicon-trash"></i>
 						</a>
-						<div class="modal fade" id="deleteModal-{{ $value->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="deleteModal-{{ $value->keyword_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -137,6 +137,7 @@
 		</table>
 	</div><!-- /.table-responsive -->
 	<a class="btn btn-success pull-left" href="{{ URL::to('keyword/create') }}"><i class="glyphicon glyphicon-plus"></i> Import</a>
+	{{$keywords->links()}}
 </div><!-- /.the-box full -->
 <!-- / Keyword -->
 

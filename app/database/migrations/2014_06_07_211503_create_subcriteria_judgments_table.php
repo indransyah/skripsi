@@ -18,8 +18,10 @@ class CreateSubcriteriaJudgmentsTable extends Migration {
 			$table->unsignedInteger('subcriteria_id');
 			$table->integer('judgment');
 			$table->unsignedInteger('compared_subcriteria_id');
+			$table->unsignedInteger('criteria_id');
 			$table->foreign('subcriteria_id')->references('subcriteria_id')->on('subcriterias')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compared_subcriteria_id')->references('subcriteria_id')->on('subcriterias')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('criteria_id')->references('criteria_id')->on('subcriterias')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 

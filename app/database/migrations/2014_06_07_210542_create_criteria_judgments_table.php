@@ -16,7 +16,7 @@ class CreateCriteriaJudgmentsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->unsignedInteger('criteria_id');
-			$table->integer('judgment');
+			$table->decimal('judgment',5,2);
 			$table->unsignedInteger('compared_criteria_id');
 			$table->foreign('criteria_id')->references('criteria_id')->on('criterias')->onDelete('cascade')->onUpdate('cascade');
 			$table->foreign('compared_criteria_id')->references('criteria_id')->on('criterias')->onDelete('cascade')->onUpdate('cascade');

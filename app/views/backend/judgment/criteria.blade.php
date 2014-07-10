@@ -14,7 +14,7 @@
 @endif
 <h1 class="page-header" style="margin-top:0;">Criteria</h1>
 @if(count($criterias)<2)
-<div class="alert alert-warning fade in alert-dismissable text-center">
+<div class="alert alert-info alert-bold-border fade in alert-dismissable text-center">
   <strong>Criteria must be at least 2 criteria!</strong>
 </div>
 @else

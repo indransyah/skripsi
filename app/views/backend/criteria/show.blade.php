@@ -12,7 +12,14 @@
 </div>
 @endif
 <h1 class="page-header" style="margin-top:0;">{{$criteria->criteria}}'s Subcriteria</h1>
-<!-- Kriteria -->
+@if(count($subcriterias)==0)
+<div class="alert alert-info alert-bold-border fade in alert-dismissable text-center">
+	<strong>There is no subcriteria. {{ HTML::link('subcriteria/create/'.$id, 'Add subcriteria?', array('class'=>'alert-link')) }}</strong>
+	<!-- <strong>There is no subcriteria.</strong> -->
+	<br />	
+</div>
+<!-- <a class="btn btn-success" href="{{ URL::to('subcriteria/create/'.$id) }}"><i class="glyphicon glyphicon-plus"></i> Add Subcriteria</a> -->
+@else
 <div class="row">
 	<div class="col-lg-6">
 		<div class="the-box full">
@@ -70,5 +77,5 @@
 		</div><!-- /.the-box full -->
 	</div>
 </div>
-<!-- / Kriteria -->
+@endif
 @stop
